@@ -1,0 +1,69 @@
+type CreateQuestionOutput {
+  id: String!
+  file: String
+  type: String
+  createdAt: String
+  updatedAt: String
+  content: String
+  authorId: String
+  shuffleAnswer: Boolean
+  answers: CreateQuestionAnswersOutput
+  categories: [CreateQuestionCategoryOutput]
+}
+
+type CreateQuestionAnswersOutput {
+  id: String
+  content: String
+  isCorrect: String
+  file: String
+}
+
+type CreateQuestionCategoryOutput {
+  id: String
+  name: String
+}
+
+type DeleteQuestionOutput {
+  message: String
+}
+
+type GetListQuestionOutput {
+  data: [GetListQuestionDataOutput]
+  metadata: GetListQuestionMetadataOutput
+}
+
+type GetListQuestionMetadataOutput {
+  skip: Int
+  take: Int
+}
+
+type GetListQuestionDataOutput {
+  id: String
+  file: String
+  type: String
+  createdAt: String
+  updatedAt: String
+  content: String
+  shuffleAnswer: Boolean
+  answers: [GetListQuestionAnswerOutput]
+  author: GetListQuestionAuthorOutput
+  categories: [GetListQuestionCategoriesOutput]
+}
+
+type GetListQuestionCategoriesOutput {
+  id: String
+  name: String
+}
+
+type GetListQuestionAuthorOutput {
+  id: String
+  firstname: String
+  lastname: String
+}
+
+type GetListQuestionAnswerOutput {
+  id: String
+  content: String
+  isCorrect: Boolean
+  file: String
+}

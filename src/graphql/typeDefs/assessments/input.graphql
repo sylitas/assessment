@@ -1,0 +1,44 @@
+input CreateAssessmentInput {
+  description: String
+  name: String!
+  retake: Int!
+  breakTime: Int!
+  exams: [CreateAssessmentExamInput!]!
+}
+
+input CreateAssessmentExamInput {
+  questionIds: [String!]!
+  duration: Int!
+}
+
+input UpdateStatusAssessmentInput {
+  assessmentId: String!
+  status: AssessmentStatusInput!
+}
+
+input GetListAssessmentInput {
+  status: AssessmentStatusInput!
+  metadata: GetListAssessmentMetadataInput
+}
+
+input GetListAssessmentMetadataInput {
+  skip: Int
+  take: Int
+}
+
+input UpdateAssessmentInput {
+  assessmentId: String!
+  name: String
+  retake: Int
+  breakTime: Int
+  description: String
+}
+
+input UpdatePublicAssessmentInput {
+  assessmentId: String!
+  isPublic: Boolean!
+}
+
+input CloneAssessmentInput {
+  assessmentId: String!
+}

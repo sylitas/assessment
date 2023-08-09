@@ -1,0 +1,53 @@
+{
+  "name": "be-mor-talent-assessment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "update:db": "prisma migrate dev",
+    "lint": "eslint src/**/*js --quiet",
+    "setup-apidoc-config": "node -r dotenv/config -r @babel/register ./documentation/config.js",
+    "generate:apidoc": "npm run setup-apidoc-config && apidoc -i ./documentation -f .apidoc.js -o ./src/public -t ./documentation/template/",
+    "prestart": "npm run generate:apidoc && prisma migrate deploy && prisma db seed",
+    "start": "node -r dotenv/config -r @babel/register ./src/index.js",
+    "start-db:silence": "docker compose up --build -d postgres pgadmin4 mongo mongo-express",
+    "predev": "cp .env.local .env && npm run generate:apidoc",
+    "dev": "npm run start-db:silence && npm run prestart && nodemon --watch src --watch .env --ext mjs,js,es,json,graphql -- -r dotenv/config -r @babel/register ./src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.7.5",
+    "@aws-sdk/client-s3": "^3.370.0",
+    "@aws-sdk/s3-request-presigner": "^3.370.0",
+    "@graphql-tools/load-files": "^7.0.0",
+    "@prisma/client": "^5.0.0",
+    "apidoc": "^0.28.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "cron": "^2.4.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "handlebars": "^4.7.8",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.1",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.4",
+    "prisma": "^5.0.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.22.9",
+    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/register": "^7.22.5",
+    "eslint": "^8.45.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.8.0",
+    "nodemon": "^3.0.1"
+  },
+  "prisma": {
+    "seed": "node -r dotenv/config -r @babel/register prisma/seed.js"
+  }
+}

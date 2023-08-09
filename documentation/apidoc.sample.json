@@ -1,0 +1,14 @@
+{
+  "name": "Mor Talent Assessment API Docs",
+  "version": "1.0.0",
+  "description": "API Documentation",
+  "title": "Documentation",
+  "url": "http://${DOMAIN}",
+  "sampleUrl": "http://${DOMAIN}",
+  "template": {
+    "forceLanguage": "en",
+    "withCompare": false,
+    "showRequiredLabels": true,
+    "withGenerator": false
+  }
+}

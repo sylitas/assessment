@@ -1,0 +1,28 @@
+input CreateQuestionInput {
+  file: String
+  categoryIds: [String!]!
+  content: String
+  type: CreateQuestionTypeInput!
+  shuffleAnswer: Boolean
+  answers: [CreateQuestionAnswerInput!]
+}
+
+input CreateQuestionAnswerInput {
+  content: String!
+  isCorrect: Boolean
+  file: String
+}
+
+input DeleteQuestionInput {
+  ids: [String!]!
+}
+
+input GetListQuestionInput {
+  type: CreateQuestionTypeInput
+  metadata: GetListQuestionMetadataInput
+}
+
+input GetListQuestionMetadataInput {
+  skip: Int
+  take: Int
+}

@@ -1,0 +1,81 @@
+type CreateAssessmentOutput {
+  id: String
+  name: String
+  retake: Int
+  breakTime: Int
+  description: String
+  status: String
+  createdAt: String
+  updatedAt: String
+  authorId: String
+  isPublic: Boolean
+  exams: [CreateAssessmentExamOutput]
+}
+
+type CreateAssessmentExamOutput {
+  id: String
+  round: Int
+  duration: Int
+  questions: [CreateAssessmentQuestionsOutput]
+}
+
+type CreateAssessmentQuestionsOutput {
+  id: String
+  type: String
+  content: String
+  shuffleAnswer: Boolean
+  file: String
+  answers: [CreateAssessmentAnswersOutput]
+}
+
+type CreateAssessmentAnswersOutput {
+  id: String
+  content: String
+  isCorrect: Boolean
+  file: String
+}
+
+type UpdateStatusAssessmentOutput {
+  message: String
+}
+
+type GetListAssessmentOutput {
+  data: [GetListAssessmentDataOutput]
+  metadata: GetListAssessmentMetadataOutput
+}
+
+type GetListAssessmentDataOutput {
+  id: String
+  name: String
+  status: String
+  createdAt: String
+  updatedAt: String
+  totalTestTaker: Int
+  finishedTestTaker: Int
+}
+
+type GetListAssessmentMetadataOutput {
+  skip: Int
+  take: Int
+}
+
+type UpdateAssessmentOutput {
+  id: String
+  name: String
+  retake: Int
+  breakTime: Int
+  description: String
+  status: String
+  createdAt: String
+  updatedAt: String
+  authorId: String
+  isPublic: Boolean
+}
+
+type UpdatePublicAssessmentOutput {
+  publicLink: String
+}
+
+type CloneAssessmentOutput {
+  id: String
+}

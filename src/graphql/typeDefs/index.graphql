@@ -1,0 +1,15 @@
+type Query {
+  GetListQuestion(input: GetListQuestionInput!): GetListQuestionOutput
+  GetListAssessment(input: GetListAssessmentInput!): GetListAssessmentOutput
+}
+
+type Mutation {
+  CreateQuestion(input: CreateQuestionInput!): CreateQuestionOutput
+  DeleteQuestion(input: DeleteQuestionInput!): DeleteQuestionOutput
+  CreateAssessment(input: CreateAssessmentInput!): CreateAssessmentOutput
+  UpdateStatusAssessment(input: UpdateStatusAssessmentInput!): UpdateStatusAssessmentOutput
+  UpdateAssessment(input: UpdateAssessmentInput!): UpdateAssessmentOutput
+  UpdatePublicAssessment(input: UpdatePublicAssessmentInput!): UpdatePublicAssessmentOutput
+  CloneAssessment(input: CloneAssessmentInput!): CloneAssessmentOutput
+  SendBulkMail(input: SendBulkMailInput!): SendBulkMailOutput
+}

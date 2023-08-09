@@ -1,0 +1,174 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model test_takers {
+  id String @id @unique @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email String @unique
+  firstname String?
+  lastname String?
+  testTakerAssessmentConfig test_taker_assessment[]
+}
+
+model users {
+  id String @id @unique @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email String @unique
+  password String
+  firstname String
+  lastname String?
+  questions questions[]
+  assessments assessments[]
+  usersRoles users_roles []
+}
+
+model roles {
+  id String @id @unique @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String
+  usersRoles users_roles[]
+}
+
+model users_roles {
+  userId String
+  users users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roleId String
+  roles roles @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  @@id([userId,roleId])
+}
+
+model assessments {
+  id String @id @unique @default(uuid())
+  name String
+  retake Int @default(0) // 0 -> can not retake the test
+  breakTime Int
+  description String?
+  status assessmentStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId String
+  users users @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  isPublic Boolean @default(false)
+  assessmentsExams assessments_exams[]
+  testTakerAssessmentConfig test_taker_assessment[]
+}
+
+enum assessmentStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+model test_taker_assessment {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  testTaker test_takers @relation(fields: [testTakerId], references: [id], onDelete: Cascade)
+  testTakerId String
+  assessment assessments @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  assessmentId String
+  state testTakerAssessmentState
+  resultId String?
+
+  @@id([testTakerId, assessmentId])
+}
+
+enum testTakerAssessmentState {
+  SENT
+  IN_PROGRESS
+  FINISHED
+}
+
+model exams {
+  id String @id @unique @default(uuid())
+  duration Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  assessmentsExams assessments_exams[]
+  examsQuestions exams_questions[]
+}
+
+model assessments_exams {
+  assessmentId String
+  assessments assessments @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  examId String
+  exams exams @relation(fields: [examId], references: [id], onDelete: Cascade)
+  round Int 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@id([assessmentId, examId])
+}
+
+model questions {
+  id String @id @unique @default(uuid())
+  file String?
+  type questionType
+  questions_categories questions_categories[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content String?
+  authorId String
+  shuffleAnswer Boolean @default(false)
+  users users @relation(fields: [authorId],references: [id],onDelete: Cascade)
+  examsQuestions exams_questions[]
+  answers answers[]
+}
+
+enum questionType {
+  MULTIPLE_CHOICES
+  MULTIPLE_RESPONSE
+  ESSAY
+  MEDIA
+}
+
+model categories {
+  id String @id @unique @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String @unique
+  questions_categories questions_categories[]
+}
+
+model questions_categories {
+  questionId String
+  questions questions @relation(fields: [questionId],references: [id],onDelete: Cascade)
+  categoryId String
+  categories categories @relation(fields: [categoryId],references: [id],onDelete: Cascade)
+
+  @@id([questionId, categoryId])
+}
+
+model exams_questions {
+  examId String
+  exams exams @relation(fields: [examId], references: [id], onDelete: Cascade)
+  questionId String
+  questions questions @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([examId,questionId])
+}
+
+model answers {
+  id String @id @unique @default(uuid())
+  questionId String
+  questions questions @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content String
+  isCorrect Boolean
+  file String?
+}
+
+

@@ -1,0 +1,12 @@
+scalar Object
+
+input SendBulkMailInput {
+  emails: [String!]!
+  template: String!
+  passingData: Object
+  additionData: SendBulkMailAdditionInput
+}
+
+input SendBulkMailAdditionInput {
+  assessmentId: String
+}
